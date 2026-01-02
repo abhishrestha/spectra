@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  color: #ffffff;
+  font-family: 'IBM Plex Mono', monospace;
+  /* Dot-matrix background */
+  background-image:
+    radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.16) 2px, transparent 0);
+  background-size: 200px 200px;
+}
+
+#__next {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+@layer components {
+  .message-container {
+    @apply flex gap-3 mb-4;
+  }
+
+  .user-message {
+    @apply justify-end;
+  }
+
+  .ai-message {
+    @apply justify-start;
+  }
+
+  .message-bubble {
+    @apply max-w-xs md:max-w-2xl px-4 py-3 rounded-lg text-sm md:text-base;
+  }
+
+  .user-bubble {
+    @apply bg-transparent text-white rounded-br-none border border-blue-600/70 shadow-[0_0_0_1px_rgba(37,99,235,0.25)] backdrop-blur-sm;
+  }
+
+  .ai-bubble {
+    @apply bg-transparent text-gray-100 rounded-bl-none border border-gray-700 shadow-[0_0_0_1px_rgba(75,85,99,0.35)] backdrop-blur-sm;
+  }
+
+  .source-link {
+    @apply text-blue-400 hover:text-blue-300 hover:underline break-words;
+  }
+}

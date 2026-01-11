@@ -308,6 +308,12 @@ async def chat_stream(message: str):
         )
 
 
+# --------------------------------
+# Vercel Serverless Handler
+# --------------------------------
+# Export the app instance for Vercel
+handler = app
+
 if __name__ == "__main__":
     import uvicorn
     

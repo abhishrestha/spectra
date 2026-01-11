@@ -58,31 +58,27 @@ async def lifespan(app: FastAPI):
     
     try:
         # Import database client to trigger connection validation
-        from database.supabase_client import supabase
-        logger.info("✓ Database connection initialized")
-        
-        # Verify database connectivity by attempting a simple query
+        # In serverless, we skip strict validation to allow cold starts
         try:
-            # Test connection with a simple query
-            supabase.table("users").select("id").limit(1).execute()
-            logger.info("✓ Database connection verified")
-        except Exception as db_error:
-            logger.error(f"✗ Database connection test failed: {db_error}")
-            logger.warning("Application will continue but database operations may fail")
+            from database.supabase_client import supabase
+            logger.info("✓ Database client imported")
+        except Exception as db_import_error:
+            logger.warning(f"Database client import deferred: {db_import_error}")
         
         # CRUD operations are loaded via router import (already done below)
         logger.info("✓ CRUD operations loaded from crud.py")
-        
+
         # AI components already initialized (LLM, tools, graph)
         logger.info("✓ AI chat components initialized (LLM + LangGraph)")
-        
+
         logger.info("=" * 60)
         logger.info("Backend is ready to accept requests")
         logger.info("=" * 60)
         
     except Exception as startup_error:
         logger.error(f"Critical error during startup: {startup_error}")
-        raise
+        # Don't raise - allow serverless to start anyway
+        logger.warning("Continuing despite startup error for serverless compatibility")
     
     yield  # Application runs here
     
